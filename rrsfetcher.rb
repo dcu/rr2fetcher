@@ -14,7 +14,7 @@ class RRSFetcher
     @app = :wget
   end
 
-  def self.get_page(url)
+  dee self.get_page(url)
     Hpricot(Net::HTTP.get(URI.parse(url)))
   end
 
@@ -37,13 +37,20 @@ class RRSFetcher
   def self.link_propieties(link)
     page = RRSFetcher.get_page(link)
     ff = page.search("#ff")
-    action = ff.attr("action")
-    name = "dl.start"
-    value = "free"
-    resp = Net::HTTP.post_form(URI.parse(action), {name=>value})
-    result = RRSFetcher.parse_second_page(resp.body)
-    result[:action] = action
-    result
+    unless ff
+      #DEBUG
+      File.open("error_page.html", "wb") do |file|
+        file.write(page)
+      end
+    else
+      action = ff.attr("action")
+      name = "dl.start"
+      value = "free"
+      resp = Net::HTTP.post_form(URI.parse(action), {name=>value})
+      result = RRSFetcher.parse_second_page(resp.body)
+      result[:action] = action
+      result
+    end
   end
 
   def add_download( link)
@@ -90,7 +97,7 @@ end
 
 if __FILE__ == $0
   downloader = RRSFetcher.new
-  downloader.app = :kget4
+  downloader.app = :curl
   if ARGV[0]
     downloader.add_download(ARGV[0])
     thread = Thread.new do
