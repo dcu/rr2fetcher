@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby 
 require 'rubygems'
 require 'hpricot'
 require 'net/http'
@@ -7,8 +8,10 @@ require 'uri'
 
 class RRSFetcher
   attr_accessor :download_list
+  attr_accessor :app
   def initialize
     @download_list = []
+    @app = :wget
   end
 
   def self.get_page(url)
@@ -67,6 +70,14 @@ class RRSFetcher
       show_delay(propieties[:seconds])
       p "go!!"
       cmd = "wget #{propieties[:dlf]} --post-data='mirror=on&x=67&y=50'"
+      case @app
+      	when :curl
+	  file = propieties[:dlf].split("/").last
+	  cmd = "curl --url #{propieties[:dlf]} --data 'mirror=on&x=67&y=50' > #{file}"
+	when :wget
+          cmd = "wget #{propieties[:dlf]} --post-data='mirror=on&x=67&y=50'"
+      end
+
       system(cmd)
 
 #       process = Open3.popen3(cmd)
@@ -76,6 +87,7 @@ end
 
 if __FILE__ == $0
   downloader = RRSFetcher.new
+  downloader.app = :curl
   if ARGV[0]
     downloader.add_download(ARGV[0])
     thread = Thread.new do
