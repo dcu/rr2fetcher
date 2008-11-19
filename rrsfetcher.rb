@@ -70,12 +70,15 @@ class RRSFetcher
       show_delay(propieties[:seconds])
       p "go!!"
       cmd = "wget #{propieties[:dlf]} --post-data='mirror=on&x=67&y=50'"
+      file = propieties[:dlf].split("/").last
       case @app
       	when :curl
-	  file = propieties[:dlf].split("/").last
 	  cmd = "curl --url #{propieties[:dlf]} --data 'mirror=on&x=67&y=50' > #{file}"
 	when :wget
           cmd = "wget #{propieties[:dlf]} --post-data='mirror=on&x=67&y=50'"
+	when :kget4
+	  url = %@#{propieties[:dlf]}?mirror=on&x=67&y=50@
+	  cmd = "qdbus org.kde.kget /kget/MainWindow_1 org.kde.kget.addTransfer '#{url}' ./#{file} true"
       end
 
       system(cmd)
@@ -87,7 +90,7 @@ end
 
 if __FILE__ == $0
   downloader = RRSFetcher.new
-  downloader.app = :curl
+  downloader.app = :kget4
   if ARGV[0]
     downloader.add_download(ARGV[0])
     thread = Thread.new do
