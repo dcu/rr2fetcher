@@ -20,7 +20,7 @@ parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} [options] <url|file>"
 
   opts.on("-b", "--backend=BACKEND", %w[wget curl kget4], "Backend", "Default: #{options[:backend]}") do |o|
-    options[:backend] = o
+    options[:backend] = o.to_sym
   end
 
   opts.on_tail("-h", "--help", "Show this help message.") do
