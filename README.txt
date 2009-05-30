@@ -16,11 +16,17 @@ RapidShare downloader
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* hpricot
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+$ sudo gem install hpricot --no-ri --no-rdoc
+$ git clone git://gitorious.org/~krawek/rr2fetcher/krawek.git rrsfetcher
+$ cd rrsfetcher
+$ rake gem
+$ sudo gem install --no-ri --no-rdoc pkg/*.gem
+$ rrsfetcher links_or_file-with-list-of-urls
+
 
 == LICENSE:
 
