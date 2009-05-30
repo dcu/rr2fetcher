@@ -21,8 +21,10 @@ class RRSFetcher
   end
 
   def start_dowload
-    while !download_list.empty?
-      download @download_list.pop
+    while !@download_list.empty?
+      url = @download_list.pop.strip
+      next if url.empty? || downloaded?(url)
+      download url
     end
   end
 
@@ -33,7 +35,7 @@ class RRSFetcher
     agent = "Mozilla Firefox 1.5"
 
     cmd = "wget -U '#{agent}' '#{parser.download_link}' --post-data='mirror=on&x=67&y=50'"
-    file = parser.download_link.split("/").last # FIXME: check if download_link is valid
+    file = parser.filename # FIXME: check if download_link is valid
 
     case @app
       when :curl
@@ -47,6 +49,16 @@ class RRSFetcher
   end
 
   private
+  def downloaded?(url)
+    filename = url.to_s.split("/").last
+
+    if File.exist?(filename)
+      $stderr.puts "Already downloaded: #{filename}"
+      return true
+    end
+    false
+  end
+
   def wait_until_ready(parser)
     while parser.metadata.include?(:minutes)
       show_delay(parser.metadata[:minutes] * 60)
