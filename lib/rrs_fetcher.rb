@@ -2,13 +2,22 @@ class RRSFetcher
   attr_accessor :download_list
   attr_accessor :app
 
-  def initialize
+  def initialize(options)
     @download_list = []
-    @app = :wget
+    @app = options[:backend]
+    @options = options
   end
 
-  def add_download(link)
-    @download_list << link
+  def add_download(*links)
+    links.each do |link|
+      if File.exist?(link)
+        File.open(link) do |f|
+          @download_list += f.readlines
+        end
+      else
+        @download_list << link
+      end
+    end
   end
 
   def start_dowload
@@ -40,8 +49,7 @@ class RRSFetcher
   private
   def wait_until_ready(parser)
     while parser.metadata.include?(:minutes)
-      $stderr.puts "minutes #{result[:minutes]}"
-      show_delay(result[:minutes] * 60)
+      show_delay(parser.metadata[:minutes] * 60)
       parser.parse_next_page
     end
 
@@ -51,7 +59,7 @@ class RRSFetcher
   def show_delay(seconds)
     seconds += 5
 
-    pbar = ProgressBar.new("Waiting", 100)
+    pbar = ProgressBar.new("Waiting", seconds)
     seconds.times do |i|
       pbar.inc
       sleep(1)

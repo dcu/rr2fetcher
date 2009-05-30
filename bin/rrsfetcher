@@ -10,12 +10,36 @@ require 'hpricot'
 require 'net/http'
 require 'uri'
 require 'progressbar'
+require 'optparse'
 
+options = {
+  :backend => :wget
+}
 
-downloader = RRSFetcher.new
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [options] <url|file>"
 
-if ARGV[0]
-  downloader.add_download(ARGV[0])
+  opts.on("-b", "--backend=BACKEND", %w[wget curl kget4], "Backend", "Default: #{options[:backend]}") do |o|
+    options[:backend] = o
+  end
 
-  downloader.start_dowload
+  opts.on_tail("-h", "--help", "Show this help message.") do
+    puts opts
+    exit
+  end
 end
+
+args = []
+begin
+  args = parser.parse!
+  raise "Missing url or file" if args.empty?
+rescue => e
+  $stderr.puts "Error: #{e}"
+  puts parser
+  exit 1
+end
+
+downloader = RRSFetcher.new(options)
+downloader.add_download(*args)
+
+downloader.start_dowload
