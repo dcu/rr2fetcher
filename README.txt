@@ -1,3 +1,27 @@
+= rrs_fetcher
+
+* http://gitorious.org/rr2fetcher
+
+== DESCRIPTION:
+
+RapidShare downloader
+
+== FEATURES/PROBLEMS:
+
+* unknown
+
+== SYNOPSIS:
+
+  FIX (code sample of usage)
+
+== REQUIREMENTS:
+
+* FIX (list of requirements)
+
+== INSTALL:
+
+* FIX (sudo gem install, anything else)
+
 == LICENSE:
 
 (The MIT License)

@@ -1,1 +1,9 @@
-
+.gitignore
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/rrsfetcher
+lib/progressbar.rb
+lib/rrs_fetcher.rb
+lib/rrs_parser.rb
