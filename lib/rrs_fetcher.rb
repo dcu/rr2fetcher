@@ -23,15 +23,15 @@ class RRSFetcher
     wait_until_ready(parser)
     agent = "Mozilla Firefox 1.5"
 
-    cmd = "wget -U '#{agent}' '#{parser.metadata[:dlf]}' --post-data='mirror=on&x=67&y=50'"
-    file = parser.metadata[:dlf].split("/").last
+    cmd = "wget -U '#{agent}' '#{parser.download_link}' --post-data='mirror=on&x=67&y=50'"
+    file = parser.download_link.split("/").last # FIXME: check if download_link is valid
 
     case @app
       when :curl
-        cmd = "curl -A '#{agent}' --url #{properties[:dlf]} --data 'mirror=on&x=67&y=50' > #{file}"
+        cmd = "curl -A '#{agent}' --url '#{parser.download_link}' --data 'mirror=on&x=67&y=50' > #{file}"
       when :kget4
-        url = %@#{properties[:dlf]}?mirror=on&x=67&y=50@
-        cmd = "qdbus org.kde.kget /kget/MainWindow_1 org.kde.kget.addTransfer '#{url}' ./#{file} true"
+        url = %@'#{parser.download_link}?mirror=on&x=67&y=50'@
+        cmd = "qdbus org.kde.kget /kget/MainWindow_1 org.kde.kget.addTransfer '#{parser.download_link}' ./#{file} true"
     end
 
     system(cmd)
@@ -49,9 +49,13 @@ class RRSFetcher
   end
 
   def show_delay(seconds)
+    seconds += 5
+
+    pbar = ProgressBar.new("Waiting", 100)
     seconds.times do |i|
-      print "#{i} ";
+      pbar.inc
       sleep(1)
     end
+    pbar.finish
   end
 end

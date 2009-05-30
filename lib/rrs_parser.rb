@@ -1,8 +1,9 @@
 class RSSParser
-  attr_reader :page, :metadata, :url, :form_action
+  attr_reader :page, :metadata, :url, :download_link, :form_action
   def initialize(url)
     @page = Hpricot(Net::HTTP.get(URI.parse(url)))
     @url = url
+    @download_link = ""
 
     find_form_action
   end
@@ -14,8 +15,9 @@ class RSSParser
     body = resp.body
 
     body.each_line do |line|
-      if line =~ /.*name="dlf"\sform_action="(\S*)"/
-        @metadata[:dlf] = $1
+      if line =~ /.*name="dlf"\saction="(\S*)"/
+        $stderr.puts "-> Downloading #{$1}..."
+        @download_link = $1
       end
 
       if line =~ /var\s*c\s*=\s*(\d+)/
@@ -36,7 +38,8 @@ class RSSParser
       return false
     end
 
-    @form_action = ff.attr("action")
+    @form_action = ff.attr("action") # FIXME: Check the error/exception
+    parse_next_page
     true
   end
 end
