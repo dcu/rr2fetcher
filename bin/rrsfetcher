@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.dirname(__FILE__)+"/../lib/"
+
+require 'rubygems'
+require 'hpricot'
+require 'net/http'
+require 'uri'
+require 'rss_fetcher'
+require 'rss_parser'
+
+
+downloader = RRSFetcher.new
+downloader.app = :curl
+
+if ARGV[0]
+  downloader.add_download(ARGV[0])
+
+  downloader.start_dowload
+end
