@@ -1,4 +1,4 @@
-class RRSFetcher
+class RR2Fetcher
   VERSION = "0.1"
 
   attr_accessor :download_list

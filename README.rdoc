@@ -1,10 +1,10 @@
-= rrs_fetcher
+= rr2fetcher
 
-* http://gitorious.org/rr2fetcher
+* http://github.com/dcu/rr2fetcher
 
 == DESCRIPTION:
 
-RapidShare downloader
+Download files from a rapidshare free account
 
 == FEATURES/PROBLEMS:
 
@@ -12,7 +12,7 @@ RapidShare downloader
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+
 
 == REQUIREMENTS:
 
@@ -20,19 +20,13 @@ RapidShare downloader
 
 == INSTALL:
 
-$ sudo gem install hpricot --no-ri --no-rdoc
-$ git clone git://gitorious.org/~krawek/rr2fetcher/krawek.git rrsfetcher
-$ cd rrsfetcher
-$ rake gem
-$ sudo gem install --no-ri --no-rdoc pkg/*.gem
-$ rrsfetcher links_or_file-with-list-of-urls
-
+* sudo gem install dcu-rr2fetcher
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 FIXME full name
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

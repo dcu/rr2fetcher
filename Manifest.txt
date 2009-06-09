@@ -1,9 +1,13 @@
-.gitignore
 History.txt
 Manifest.txt
-README.txt
+PostInstall.txt
+README.rdoc
 Rakefile
-bin/rrsfetcher
+bin/rr2fetcher
 lib/progressbar.rb
-lib/rrs_fetcher.rb
+lib/rr2fetcher.rb
 lib/rrs_parser.rb
+rr2fetcher.gemspec
+script/console
+script/destroy
+script/generate

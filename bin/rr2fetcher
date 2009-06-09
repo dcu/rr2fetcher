@@ -2,7 +2,7 @@
 
 $:.unshift File.expand_path(File.dirname(__FILE__)+"/../lib/")
 
-require 'rrs_fetcher'
+require 'rr2fetcher'
 require 'rrs_parser'
 
 require 'rubygems'
@@ -39,7 +39,7 @@ rescue => e
   exit 1
 end
 
-downloader = RRSFetcher.new(options)
+downloader = RR2Fetcher.new(options)
 downloader.add_download(*args)
 
 downloader.start_dowload
