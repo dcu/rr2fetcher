@@ -1,5 +1,5 @@
 class RR2Fetcher
-  VERSION = "0.1"
+  VERSION = "0.2"
 
   attr_accessor :download_list
   attr_accessor :app

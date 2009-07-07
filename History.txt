@@ -2,3 +2,6 @@
 
 * 1 major enhancement:
   * Initial release
+
+== 0.2 2009-07-07
+* new release
